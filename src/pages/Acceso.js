@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 
 
 function Acceso() {
@@ -8,6 +8,10 @@ function Acceso() {
         tipo_usuario: "",
         autenticado: false
     })
+    
+    useEffect(() => {
+        console.log(datos.autenticado); // This will show the updated value
+      }, [datos.autenticado]);
 
     const enviarFormulario=(e)=>{
         e.preventDefault();
@@ -18,8 +22,9 @@ function Acceso() {
         //Almacen local
         
         localStorage.setItem('Usuario',datos.usuario);
+        localStorage.setItem('Status',true);
         setDatos({...datos,autenticado:true})
-        localStorage.setItem('Status',datos.autenticado);
+        
     }
 
     const cerrarSesion=()=>{

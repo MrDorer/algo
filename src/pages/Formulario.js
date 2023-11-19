@@ -17,7 +17,7 @@ function Formulario() {
         onChange={(e)=>setCampos({...campos,usuario:e.target.value})} />
         <input type="password" placeholder="Contraseña"
          onChange={(e)=>setCampos({...campos,contrasenia:e.target.value})} />
-        <button type="submit">Ingresar</button>
+        <button type="submit" >Ingresar</button>
     </form>
   )
 }

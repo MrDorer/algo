@@ -1,23 +1,24 @@
 import React, { useState,useEffect } from "react";
 import Swal from "sweetalert2";
+import DriveUploader from "../components/DriveUploader";
 
 function CocktailRandom(){
     const [datos,setDatos]=useState([]);
-    const [obteniendoDatos,setObteniendoDatos]=useState(false)
+    const [cargando,setCargando]=useState(false)
 
     useEffect(()=>{
         obtenerCocktail();
     },[]);
 
     const obtenerCocktail=async ()=>{
-        setObteniendoDatos(true);
+        setCargando(true);
         try{
             const resultado = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
             if(!resultado.ok){
                 console.log(resultado);
                 return Swal.fire({
                     title: 'Error',
-                    icon: 'Error',
+                    icon: 'error',
                     text: 'Ha ocurrido un error'
                 })
             }
@@ -27,20 +28,21 @@ function CocktailRandom(){
         }catch(error){
             console.log(error); 
         }finally{
-            setObteniendoDatos(false);
+            setCargando(false);
         }
     }
     return(
-        (obteniendoDatos)?
+        (cargando)? //(variable)? (cuando se cumple):(cuando no se cumple)
         (<>
             <h3>Cargando...</h3>
         </>):
             (
                 <>
+                <DriveUploader/>
                     <h3>Cocktail conseguido</h3>
 
-                    {datos.map((elcocktail)=>
-                    <>
+                    {datos.map((elcocktail, index)=>
+                    <div key={index}>
                         <h4>{elcocktail.strDrink}</h4>
                         <h2>categoria: {elcocktail.strCategory}</h2>
                         <img src={elcocktail.strDrinkThumb} />
@@ -51,7 +53,8 @@ function CocktailRandom(){
                             <li>{elcocktail.strIngredient3}</li>
                             <li>{elcocktail.strIngredient4}</li>
                         </ul>
-                        </>
+                    </div>
+                    
                     )}
 
                 </>
